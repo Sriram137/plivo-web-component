@@ -1,0 +1,24 @@
+{
+    "name": "my-repo",
+    "version": "0.0.0",
+    "description": "My awesome Custom Element",
+    "license": "MIT",
+    "main": "dist/my-element.html",
+    "keywords": [
+        "polymer",
+        "web-components"
+    ],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components"
+    ],
+    "dependencies": {
+        "polymer": "Polymer/polymer#~0.3.3",
+        "polymer-core": "Polymer/core-elements#~0.3.3",
+        "polymer-core-icon": "Polymer/core-icon#~0.3.3",
+        "polymer-core-icons": "Polymer/core-icons#~0.3.3",
+        "polymer-core-iconset": "Polymer/core-iconset#~0.3.3",
+        "polymer-elements": "Polymer/paper-elements#~0.3.3"
+    }
+}

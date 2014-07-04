@@ -1,0 +1,152 @@
+<!-- Import Polymer -->
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../core-ajax/core-ajax.html">
+
+<link rel="import" href="../../core-icon/core-icon.html">
+<link rel="import" href="../../core-icons/core-icons.html">
+<link rel="import" href="../../core-icons/iconsets/communication-icons.html">
+
+<link rel="import" href="../../paper-fab/paper-fab.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+
+<script type="text/javascript" src="https://s3.amazonaws.com/plivosdk/web/plivo.min.js"></script>
+<!-- Define your custom element -->
+<polymer-element name="plivo-web" attributes="userid password">
+
+    <template>
+        <div id="core_card" layout vertical start width="auto" style="display:inline-block;padding:10px;">
+            <paper-shadow z="3"></paper-shadow>
+            <div>
+                <img src="https://www.plivo.com/assets/dist/img/logo.png?1401228702"></img>
+            </div>
+            <div layout horizontal start-justified>
+
+                <template if={{connected}}>
+                    <paper-input id="destination" value="{{destination}}" floatingLabel label="SIP or phoneNumber"></paper-input>
+                    <template if={{!busy}}>
+                        <paper-fab icon="communication:call" on-tap="{{callcv}}"></paper-fab>
+                    </template>
+                    <template if={{busy}}>
+                        <paper-fab icon="communication:call-end" on-tap="{{hangup}}"></paper-fab>
+                    </template>
+                </template>
+
+                <template if={{!connected}}>
+                    <div layout horizontal end>
+                        <div layout vertical>
+                            <paper-input id="destination" value="{{userid}}" floatingLabel label="User Name"></paper-input>
+                            <paper-input type="password" id="destination" value="{{password}}" floatingLabel label="Password"></paper-input>
+                        </div>
+                        <div style="padding-left:10px">
+                            <paper-fab icon="arrow-forward" on-tap="{{login}}"></paper-fab>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div horizontal layout justified>
+                <span>{{status}}</span>
+                <template if={{!busy}} flex self-end>
+                    <template if={{connected}} flex self-end>
+                        <paper-fab icon="settings-power" on-tap="{{logout }}" class="mini"></paper-fab>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <script>
+    Polymer('plivo-web', {
+        // Fires when an instance of the element is created
+        created: function() {
+            this.someVar = "QWE";
+            this.data = "Loading";
+            this.status = "Loading";
+            this.connected = false;
+            this.busy = false;
+            this.state = "";
+        },
+
+        // Fires when the element’s initial set of children and siblings are guaranteed to exist
+        domReady: function() {},
+
+        // Fires when the "<polymer-element>" has been fully prepared
+        ready: function() {
+            var self = this;
+            Plivo.init();
+            this.status = "Authenticating";
+            Plivo.conn.login(this.userid, this.password);
+            Plivo.onLogin = function() {
+                console.log("logged");
+                self.status = "Logged in";
+                self.connected = true;
+            }
+            Plivo.onLogout = function() {
+                console.log("looged out");
+                self.status = "Logged out";
+                self.connected = false;
+            }
+            Plivo.onWebrtcNotSupported = function() {
+                console.log("WEBRTC not supported");
+            }
+            Plivo.onReady = function() {
+                console.log("READY");
+            }
+            Plivo.onIncomingCall = function() {
+                console.log("incomingcall");
+            }
+        },
+
+        login: function() {
+            Plivo.conn.login(this.userid, this.password);
+        },
+
+        logout: function() {
+            this.connected = false;
+            Plivo.conn.logout();
+        },
+
+        callcv: function(e, details, sender) {
+            var self = this;
+            Plivo.conn.call(this.destination);
+            Plivo.onCalling = function() {
+                self.status = "Calling...";
+                self.busy = true;
+            };
+            Plivo.onCallRemoteRinging = function() {
+                self.status = "Ringing on the other side...";
+                self.busy = true;
+            };
+            Plivo.onCallAnswered = function() {
+                self.status = "Call On Progress";
+                self.busy = true;
+            };
+            Plivo.onCallTerminated = function() {
+                self.busy = false;
+                self.status = "Call Terminated";
+            };
+            Plivo.onCallFailed = function(cause) {
+                self.busy = false;
+                self.status = "Call failed due to " + cause;
+            }
+
+        },
+        hangup: function() {
+            Plivo.conn.hangup()
+            this.status = "Hanging up";
+            self.busy = false;
+        },
+
+        // Fires when the element was inserted into the document
+        attached: function() {},
+
+        // Fires when the element was removed from the document
+        detached: function() {},
+
+        // Fires when an attribute was added, removed, or updated
+        attributeChanged: function(attr, oldVal, newVal) {}
+    });
+    </script>
+
+</polymer-element>

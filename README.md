@@ -29,7 +29,7 @@ Or [download as ZIP](https://github.com/my-user/my-repo/archive/master.zip).
 2. Import Custom Element:
 
     ```html
-    <link rel="import" href="bower_components/my-repo/dist/my-element.html">
+    <link rel="import" href="bower_components/my-repo/dist/plivo-web.html">
     ```
 
 3. Start using it!
@@ -40,21 +40,20 @@ Or [download as ZIP](https://github.com/my-user/my-repo/archive/master.zip).
 
 ## Options
 
-Attribute     | Options     | Default      | Description
----           | ---         | ---          | ---
-`foo`         | *string*    | `bar`        | Lorem ipsum dolor.
+Attribute          | Options     | Default      | Description
+---                | ---         | ---          | ---
+`username`         | *string*    | `""`         | Endpoint Username.
+`password`         | *string*    | `""`         | Endpoint Password
 
 ## Methods
 
 Method        | Parameters   | Returns     | Description
 ---           | ---          | ---         | ---
-`unicorn()`   | None.        | Nothing.    | Magic stuff appears.
 
 ## Events
 
 Event         | Description
 ---           | ---
-`onsomething` | Triggers when something happens.
 
 ## Development
 

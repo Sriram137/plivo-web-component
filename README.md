@@ -13,7 +13,7 @@
 Install the component using [Bower](http://bower.io/):
 
 ```sh
-$ bower install my-repo --save
+$ bower install plivo-web-component --save
 ```
 
 Or [download as ZIP](https://github.com/my-user/my-repo/archive/master.zip).
@@ -29,13 +29,13 @@ Or [download as ZIP](https://github.com/my-user/my-repo/archive/master.zip).
 2. Import Custom Element:
 
     ```html
-    <link rel="import" href="bower_components/my-repo/dist/plivo-web.html">
+    <link rel="import" href="bower_components/plivo-web-component/dist/plivo-web.html">
     ```
 
 3. Start using it!
 
     ```html
-    <my-element></my-element>
+    <plivo-web></plivo-web>
     ```
 
 ## Options
